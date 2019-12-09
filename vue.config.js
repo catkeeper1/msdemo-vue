@@ -4,7 +4,7 @@ module.exports = {
     port: 9000,
     proxy: {
       '/GTInterview-api': {
-        target: 'http://192.168.50.216:9000/',
+        target: 'http://192.168.50.216:8081/',
         changeOrigin: true
       }
     }

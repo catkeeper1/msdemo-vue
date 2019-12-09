@@ -27,6 +27,9 @@
 import userServices from "@/api/services/user.js";
 export default {
   name: 'Login',
+  created () {
+    console.log(this.$store.state.test);
+  },
   data () {
     return {
       loginForm: {
@@ -37,7 +40,10 @@ export default {
   },
   methods: {
     submitForm () {
-      userServices.login(this.loginForm)
+      userServices.login(this.loginForm).then(res => {
+        console.log(res);
+
+      })
     }
   },
 }
