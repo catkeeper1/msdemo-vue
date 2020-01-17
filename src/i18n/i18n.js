@@ -14,6 +14,7 @@ console.log(en);
 const messages = {
   en: Object.assign(en, enLocale),
   zh: Object.assign(zh, tcLocale),
+  
 };
 const i18n = new VueI18n({
   locale: localStorage.getItem('locale') || (window.navigator.language.indexOf('zh') < 0 ? 'en' : 'zh'),
