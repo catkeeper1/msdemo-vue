@@ -26,6 +26,10 @@
   </div>
 </template>
 <script>
+/**。
+ * 菜单
+ * @module LeftMenu
+ */
 import routerMap from '@/router/routerMap'
 export default {
   name: 'LeftMenu',
