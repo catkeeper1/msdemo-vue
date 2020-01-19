@@ -1,13 +1,14 @@
 import axios from 'axios'
 import qs from "qs";
-// import {
-//   Loading,
-//   MessageBox
-// } from 'element-ui'
+import {
+  Loading,
+  // MessageBox
+} from 'element-ui'
 
-
+let LoadingUtil = null
 class ApiManager {
-  constructor(baseURL, headers) {
+  constructor(baseURL, headers, dataType) {
+    this.dataType = dataType
     this.instance = this.createInstance(baseURL, headers)
   }
   //初始化
@@ -44,12 +45,29 @@ class ApiManager {
     return this.start('post', url, {}, params)
   }
   start(method, url, params, data) {
+    this.showLoading()
+    if (this.dataType == 'formData') {
+      data = qs.stringify(data)
+    }
 
     return this.instance({
       method: method,
       url: url,
       params: params,
-      data: qs.stringify(data)
+      data: data
+    }).then(res => {
+      LoadingUtil.close()
+      console.log(res);
+
+      return res
+    }).catch(err => {
+      LoadingUtil.close()
+      return err
+    })
+  }
+  showLoading() {
+    LoadingUtil = Loading.service({
+      fullscreen: true
     })
   }
 }
