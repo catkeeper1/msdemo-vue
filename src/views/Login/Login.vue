@@ -1,30 +1,46 @@
 <template>
   <div class="login">
-    <el-form :model="loginForm"
-             ref="loginForm"
-             label-width="100px"
-             class="loginForm">
-      <el-form-item label="用户名:"
-                    prop="userName">
-        <el-input v-model="loginForm.userName"
-                  autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="密码:"
-                    prop="password">
-        <el-input type="password"
-                  v-model.number="loginForm.password"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary"
-                   @click="submitForm()">提交</el-button>
-        <el-button @click="resetForm('loginForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
+    
+    <div class="pageBorder">
+      <div class="pageTitle" align="center">
+        {{$t("views.login.pageTitle")}}
+      </div>
+      <el-form :model="loginForm"
+              ref="loginForm"
+              status-icon
+              :rules = "validateRules"
+              class="loginForm">
+        <el-form-item 
+                      prop="userName">
+          <el-input v-model="loginForm.userName" :placeholder="$t('views.login.userName')"
+                    autocomplete="off" prefix-icon="el-icon-user-solid">
+          </el-input>
+        </el-form-item>
+        <el-form-item 
+                      prop="password">
+          <el-input type="password" :placeholder="$t('views.login.password')"
+                    v-model.number="loginForm.password" prefix-icon="el-icon-s-goods"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" style="width:100%"
+                    @click="submitForm()">{{$t("views.login.login")}}</el-button>
+          
+        </el-form-item>
+        <el-form-item align="right">
+          <el-button type="info" circle style="align:right;" @click="changeLang('zh_TW')">繁</el-button>
+          <el-button type="info" circle style="align:right;" @click="changeLang('zh_CN')">简</el-button>
+          <el-button type="info" circle style="align:right;" @click="changeLang('en_US')">Ｅ</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    
+    
   </div>
 </template>
 
 <script>
 import userServices from "@/api/services/user.js";
+import errorMsgHandler from "@/api/common/errorMsgHandler.js"
 export default {
   name: 'Login',
   created () {
@@ -36,16 +52,45 @@ export default {
         userName: '',
         password: ''
       },
+      validateRules: {
+        userName: [
+            { required: true, message: this.$t("views.login.msg.userIDIsEmpty"), trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: this.$t("views.login.msg.passwordIsEmpty"), trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
     submitForm () {
-      userServices.login(this.loginForm).then(res => {
-        console.log(res);
 
-      })
+      this.$refs['loginForm'].validate((valid) => {
+        
+          if (valid) {
+            userServices.login(this.loginForm).then(() => {
+              
+              this.$router.replace({
+                path: '/',
+            
+              });
+
+            }, err => {
+              
+              errorMsgHandler.handleError(this, err);            
+
+            });
+          } 
+      });  
+
+      
+    },
+    changeLang(lang) {
+      sessionStorage.setItem('lang', lang);
+      location.reload();
+      
     }
-  },
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -56,7 +101,15 @@ export default {
   justify-content: center;
   align-items: center;
   .loginForm {
-    width: 700px;
+    width: 500px;
+  }
+  .pageBorder {
+    border:solid 1px black; 
+    padding:10px; 
+  }
+  .pageTitle {
+    font-size:24px; 
+    font-family:'Helvetica', '黑体', '宋体';
   }
 }
 </style>

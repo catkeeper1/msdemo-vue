@@ -5,8 +5,11 @@ import {
   // MessageBox
 } from 'element-ui'
 
-let LoadingUtil = null
+let LoadingUtil = null;
+let sessionToken = null;
+
 class ApiManager {
+  //dataType为formData和json两种。
   constructor(baseURL, headers, dataType) {
     this.dataType = dataType
     this.instance = this.createInstance(baseURL, headers)
@@ -20,15 +23,30 @@ class ApiManager {
     // 请求前 做的处理 可用于获取vuex中的user
     instance.interceptors.request.use(function (config) {
       // 在发送请求之前做些什么
+      let token = sessionToken;
+      if(token != null) {
+        config.headers['x-auth-token'] = token;
+      }
+
+      var lang = sessionStorage.getItem('lang');
+      if(lang != null) {
+        config.headers['lang'] = lang;
+      }
+
       return config;
     }, function (error) {
       return Promise.reject(error);
     });
-    instance.interceptors.response.use(function (config) {
+    instance.interceptors.response.use(function (res) {
       // 对相应数据处理
-      console.log(3);
+      console.log("server reply:");
+      console.log(res);
+      var token = res.headers['x-auth-token'];
+      if(token != null) {
+        sessionToken = token;
+      }
 
-      return config;
+      return res;
     }, function (error) {
       // 对响应错误处理
 
@@ -57,12 +75,12 @@ class ApiManager {
       data: data
     }).then(res => {
       LoadingUtil.close()
-      console.log(res);
 
       return res
     }).catch(err => {
-      LoadingUtil.close()
-      return err
+      LoadingUtil.close();
+      return Promise.reject(err);
+      
     })
   }
   showLoading() {
