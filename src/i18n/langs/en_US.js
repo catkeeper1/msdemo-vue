@@ -3,11 +3,11 @@ module.exports = {
   views: {
     login: {
       pageTitle: 'CMHK-SGS CMS Login',
-      userName: 'User ID',
+      userName: 'Username',
       password: 'Password',
       login: 'Login',
       msg: {
-        userIDIsEmpty: 'Please input user ID',
+        userIDIsEmpty: 'Please input username',
         passwordIsEmpty: 'Please input password'
       }
     }

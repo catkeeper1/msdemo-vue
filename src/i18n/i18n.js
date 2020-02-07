@@ -21,7 +21,8 @@ const messages = {
 var lang = sessionStorage.getItem('lang');
 
 if(lang != 'en_US' && lang != 'zh_TW' && lang != 'zh_CN') {
-  lang = 'en_US';
+  lang = 'zh_TW';
+  sessionStorage.setItem('lang', lang);
 }
 
 const i18n = new VueI18n({

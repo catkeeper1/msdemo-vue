@@ -27,9 +27,13 @@
           
         </el-form-item>
         <el-form-item align="right">
+          <!--现在先只支持繁体中文所以下面这些切换语言的按钮先被注释掉。
           <el-button type="info" circle style="align:right;" @click="changeLang('zh_TW')">繁</el-button>
+          
           <el-button type="info" circle style="align:right;" @click="changeLang('zh_CN')">简</el-button>
+          
           <el-button type="info" circle style="align:right;" @click="changeLang('en_US')">Ｅ</el-button>
+          -->
         </el-form-item>
       </el-form>
     </div>

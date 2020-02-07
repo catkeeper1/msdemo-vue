@@ -3,11 +3,11 @@ module.exports = {
     views: {
       login: {
         pageTitle: '香港中移動-SGS CMS登錄界面',
-        userName: '用戶ID',
+        userName: '用戶名',
         password: '密碼',
         login: '登錄',
         msg: {
-          userIDIsEmpty: '請輸入用戶ID',
+          userIDIsEmpty: '請輸入用戶名',
           passwordIsEmpty: '請輸入密碼'
         }
       }
