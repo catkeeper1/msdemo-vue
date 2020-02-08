@@ -8,11 +8,20 @@ const routes = [{
     path: '/',
     name: 'Main',
     component: () => import('@/views/Home/Main.vue'),
-    children: [{
-      path: 'User',
-      name: 'User',
-      component: () => import('@/views/User/UserList.vue'),
-    }]
+    children: [
+      {
+        path: 'Dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/Home/Dashboard.vue'),
+        props: true
+      },
+      
+      {
+        path: 'User',
+        name: 'User',
+        component: () => import('@/views/User/UserList.vue'),
+      }
+    ]
   },
   {
     path: '/Login',

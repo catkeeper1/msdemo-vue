@@ -24,7 +24,6 @@
         <el-form-item>
           <el-button type="primary" style="width:100%"
                     @click="submitForm()">{{$t("views.login.login")}}</el-button>
-          
         </el-form-item>
         <el-form-item align="right">
           <!--现在先只支持繁体中文所以下面这些切换语言的按钮先被注释掉。
@@ -113,7 +112,7 @@ export default {
   }
   .pageTitle {
     font-size:24px; 
-    font-family:'Helvetica', '黑体', '宋体';
+    //font-family:'Helvetica', '黑体', '宋体';
   }
 }
 </style>

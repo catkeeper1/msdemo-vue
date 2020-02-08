@@ -1,12 +1,12 @@
 import axios from 'axios'
 import qs from "qs";
+import router from './../../router';
 import {
   Loading,
   // MessageBox
 } from 'element-ui'
 
 let LoadingUtil = null;
-let sessionToken = null;
 
 class ApiManager {
   //dataType为formData和json两种。
@@ -23,7 +23,7 @@ class ApiManager {
     // 请求前 做的处理 可用于获取vuex中的user
     instance.interceptors.request.use(function (config) {
       // 在发送请求之前做些什么
-      let token = sessionToken;
+      let token = sessionStorage.getItem("sessionToken");
       if(token != null) {
         config.headers['x-auth-token'] = token;
       }
@@ -43,14 +43,20 @@ class ApiManager {
       console.log(res);
       var token = res.headers['x-auth-token'];
       if(token != null) {
-        sessionToken = token;
+        sessionStorage.setItem("sessionToken", token);
       }
 
       return res;
     }, function (error) {
       // 对响应错误处理
-
       console.log(error);
+      if(error.response.status == 401) {
+        router.replace({
+          path: '/Login',
+      
+        });
+      }
+      
 
       return Promise.reject(error);
     });
